@@ -1,3 +1,4 @@
+// Outdated
 // Global Variables
 let total, currentNum, operator, maxChar = 16, decimal = false;
 

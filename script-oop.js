@@ -8,6 +8,7 @@ let calculator = {
     topText: document.getElementById('screen-top'),
     bottomText: document.getElementById('screen-bottom'),
     calcBody: document.getElementById('calc-body'),
+    decimalButton: document.getElementById('decimal'),
 
     // Methods
     add: (num1, num2) => num1 + num2,
@@ -30,11 +31,9 @@ let calculator = {
         let value = btn.textContent;
         switch(value) {
             case 'AC':
-                this.total = '';
-                this.currentNum = '';
-                this.operator = '';
-                this.topText.textContent = '';
-                this.bottomText.textContent = '';
+                this.resetVariables();
+                this.clearTopScreen();
+                this.clearBottomScreen();
                 break;
             case '+/-':
                 (this.bottomText.textContent[0] === '-') ? 
@@ -43,9 +42,11 @@ let calculator = {
                 break;
             case '=':
                 this.evaluate(btn);
-                if (this.getLength(this.total) > this.maxChar) {
-                    this.bottomText.textContent = this.truncateTotalValue(this.total, this.getLength(this.total), this.maxChar);
-                    break;
+                if (this.getLength(this.total) > this.maxChar)
+                    this.total = this.truncateTotalValue(this.total, this.getLength(this.total), this.maxChar);
+                else if (Math.round(this.total) !== this.total) {
+                    this.decimal = true;
+                    this.decimalButton.className = 'disabled';
                 }
                 this.bottomText.textContent = this.total;
                 break;
@@ -61,25 +62,30 @@ let calculator = {
     drawBottomScreen: (btn) => calculator.bottomText.textContent += btn.textContent,
     clearTopScreen: () => calculator.topText.textContent = '',
     clearBottomScreen: () => calculator.bottomText.textContent = '',
+    resetVariables: () => {
+        calculator.total = '';
+        calculator.currentNum = '';
+        calculator.operator = '';
+        calculator.decimal = false;
+        calculator.decimalButton.className = '';
+    },
     evaluate: function(btn) {
         let currentNum = parseFloat(this.bottomText.textContent);
         if (isNaN(currentNum)) return;
         this.drawTopScreen(btn);
         this.clearBottomScreen();
-        if (!this.total || this.operator === '=' || this.operator === '%') {
-            this.total = currentNum;
-            this.operator = btn.textContent;
-            console.log(this.total);
-            return;
-        }
         if (this.operator === '/' && currentNum === 0) {
             this.total = 'Oops, can\'t do that.';
             return;
         }
-        this.total = this.operate(this.operator, this.total, currentNum);
+        (this.total && this.operator !== '=' && this.operator !== '%') ? 
+            this.total = this.operate(this.operator, this.total, currentNum) : 
+            this.total = currentNum;
         console.log(`${this.operator}, ${this.total}, ${currentNum}`);
         console.log(`total = ${this.total}`);
         this.operator = btn.textContent;
+        this.decimal = false;
+        this.decimalButton.className = '';
     },
     getLength: (total) => Math.ceil(Math.log10(total)),
     truncateTotalValue: (total, length, maxChar) => {
@@ -92,8 +98,19 @@ let calculator = {
 // DOM Manipulation
 calculator.calcBody.addEventListener('click', function(e) {
     let btn = e.target;
-    if (btn.className === 'number' && calculator.bottomText.textContent.length !== calculator.maxChar)
+    let isAtMaxLength = calculator.bottomText.textContent.length === calculator.maxChar;
+    if (calculator.total === 'Oops, can\'t do that.') {
+        calculator.resetVariables();
+        calculator.clearBottomScreen();
+        calculator.clearTopScreen();
+    }
+    if (btn.className === 'number' && !isAtMaxLength )
         calculator.drawBottomScreen(btn);
+    else if (btn.id === 'decimal' && !isAtMaxLength && !calculator.decimal) {
+        calculator.decimal = true;
+        calculator.decimalButton.className = 'disabled';
+        calculator.drawBottomScreen(btn);
+    }
     else if (btn.className === 'operator') {
         if (calculator.operator === '=') calculator.clearTopScreen();
         calculator.evaluate(btn);

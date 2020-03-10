@@ -110,7 +110,7 @@ button {
     color: var(--red-color);
 }
 
-#clear:hover {
+#clear:hover, #clear:active {
     background-color: var(--red-color);
     color: var(--button-color);
 }
@@ -120,16 +120,22 @@ button {
     color: var(--button-color);
 }
 
-#equals:hover {
+#equals:hover, #equals:active {
     background-color: #F8D210;
     color: var(--black-color);
 }
 
-button:hover {
+button:hover, button:active {
     background-color: var(--black-color);
     color: var(--button-color);
 }
 
 button:active {
     transform: scale(1.1);
+}
+
+.disabled, .disabled:hover, .disabled:active {
+    background-color: #a6a6a6;
+    color: var(--black-color);
+    transform: scale(1);
 }
