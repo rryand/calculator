@@ -15,6 +15,7 @@
     --calc-color: #1e272e;
     --operator-color: #145DA0;
     --red-color: #ff4d4d;
+    --yellow-color: #F8D210;
 }
 
 html {
@@ -26,11 +27,36 @@ body {
     background-color: var(--bg-color);
 }
 
-#title {
-    font-size: 2rem;
+header {
     text-align: center;
     margin-top: 80px;
     margin-bottom: 2rem;
+}
+
+#title {
+    font-size: 2rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    margin-top: 0.8rem;
+    letter-spacing: 0.2em;
+}
+
+#name {
+    color: transparent;
+    background-image: 
+        linear-gradient(to right, var(--black-color) 50%,var(--yellow-color) 50%),
+        linear-gradient(to right, var(--yellow-color) 50%,var(--bg-color) 50%);
+    transition: all 0.3s cubic-bezier(0.000, 0.000, 0.230, 1);
+    -webkit-background-clip: text, border-box;
+    background-clip: text, border-box; 
+    background-size: 200% 100%;
+    background-position: 100%;
+}
+
+#name:hover {
+    background-position: 0%;
 }
 
 #calc {
@@ -121,7 +147,7 @@ button {
 }
 
 #equals:hover, #equals:active {
-    background-color: #F8D210;
+    background-color: var(--yellow-color);
     color: var(--black-color);
 }
 
