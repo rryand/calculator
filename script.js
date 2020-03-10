@@ -59,6 +59,7 @@ function useOtherOperation(btn) {
             total = parseFloat(bottomText.textContent) / 100;
             bottomText.textContent = total;
             operator = '%';
+            break;
     }
 }
 
@@ -90,7 +91,7 @@ function clearTopScreen() {
 }
 
 function clearBottomScreen() {
-    bottomText.textContent = ''
+    bottomText.textContent = '';
 }
 
 function evaluate(btn) {
