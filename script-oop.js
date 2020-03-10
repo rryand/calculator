@@ -62,24 +62,24 @@ let calculator = {
     clearTopScreen: () => calculator.topText.textContent = '',
     clearBottomScreen: () => calculator.bottomText.textContent = '',
     evaluate: function(btn) {
-        let currentNum = parseFloat(calculator.bottomText.textContent)
+        let currentNum = parseFloat(this.bottomText.textContent);
         if (isNaN(currentNum)) return;
         this.drawTopScreen(btn);
         this.clearBottomScreen();
         if (!this.total || this.operator === '=' || this.operator === '%') {
-            calculator.total = currentNum;
-            calculator.operator = btn.textContent;
+            this.total = currentNum;
+            this.operator = btn.textContent;
             console.log(this.total);
             return;
         }
         if (this.operator === '/' && currentNum === 0) {
-            calculator.total = 'Oops, can\'t do that.';
+            this.total = 'Oops, can\'t do that.';
             return;
         }
-        calculator.total = this.operate(calculator.operator, calculator.total, currentNum);
-        console.log(`${calculator.operator}, ${calculator.total}, ${currentNum}`);
-        console.log(`total = ${calculator.total}`);
-        calculator.operator = btn.textContent;
+        this.total = this.operate(this.operator, this.total, currentNum);
+        console.log(`${this.operator}, ${this.total}, ${currentNum}`);
+        console.log(`total = ${this.total}`);
+        this.operator = btn.textContent;
     },
     getLength: (total) => Math.ceil(Math.log10(total)),
     truncateTotalValue: (total, length, maxChar) => {
