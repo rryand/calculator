@@ -41,10 +41,11 @@ let calculator = {
                     this.bottomText.textContent = '-' + this.bottomText.textContent;
                 break;
             case '=':
+                if (!this.total) return;
                 this.evaluate(btn);
                 if (this.getLength(this.total) > this.maxChar)
-                    this.total = this.truncateTotalValue(this.total, this.getLength(this.total), this.maxChar);
-                else if (Math.round(this.total) !== this.total) {
+                    this.total = this.truncateTotalValue(this.total, this.getLength(this.total));
+                if (Math.round(this.total) !== this.total) {
                     this.decimal = true;
                     this.decimalButton.className = 'disabled';
                 }
@@ -87,11 +88,14 @@ let calculator = {
         this.decimal = false;
         this.decimalButton.className = '';
     },
-    getLength: (total) => Math.ceil(Math.log10(total)),
-    truncateTotalValue: (total, length, maxChar) => {
+    getLength: (total) => total.toString().length,
+    truncateTotalValue: function(total, length) {
         console.log(`truncate: ${total}`);
         console.log(`length: ${length}`);
-        return `${Math.round(total / Math.pow(10, length - maxChar + 3))}e${length-maxChar+3}`;
+        let totalString = total.toString();
+        return (totalString.substr(0, this.maxChar).includes('.')) ? 
+            totalString.substr(0, this.maxChar) :
+            `${Math.round(total / Math.pow(10, length - this.maxChar + 3))}e${length - this.maxChar + 3}`;
     },
 };
 
@@ -104,7 +108,7 @@ calculator.calcBody.addEventListener('click', function(e) {
         calculator.clearBottomScreen();
         calculator.clearTopScreen();
     }
-    if (btn.className === 'number' && !isAtMaxLength )
+    if (btn.className === 'number' && !isAtMaxLength)
         calculator.drawBottomScreen(btn);
     else if (btn.id === 'decimal' && !isAtMaxLength && !calculator.decimal) {
         calculator.decimal = true;
