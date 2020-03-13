@@ -43,22 +43,6 @@ header {
     letter-spacing: 0.2em;
 }
 
-#name {
-    color: transparent;
-    background-image: 
-        linear-gradient(to right, var(--black-color) 50%,var(--yellow-color) 50%),
-        linear-gradient(to right, var(--yellow-color) 50%,var(--bg-color) 50%);
-    transition: all 0.3s cubic-bezier(0.000, 0.000, 0.230, 1);
-    -webkit-background-clip: text, border-box;
-    background-clip: text, border-box; 
-    background-size: 200% 100%;
-    background-position: 100%;
-}
-
-#name:hover {
-    background-position: 0%;
-}
-
 #calc {
     border: 4px solid var(--border-color);
     width: 400px;
@@ -165,4 +149,82 @@ button:active {
     background-color: #a6a6a6;
     color: var(--black-color);
     transform: scale(1);
+}
+
+@media screen and (min-width: 1025px) {
+    #name {
+        color: transparent;
+        background-image: 
+            linear-gradient(to right, var(--black-color) 50%,var(--yellow-color) 50%),
+            linear-gradient(to right, var(--yellow-color) 50%,var(--bg-color) 50%);
+        transition: all 0.3s cubic-bezier(0.000, 0.000, 0.230, 1);
+        -webkit-background-clip: text, border-box;
+        background-clip: text, border-box; 
+        background-size: 200% 100%;
+        background-position: 100%;
+    }
+    
+    #name:hover {
+        background-position: 0%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+    }
+
+    #title {
+        font-size: 5vh;
+    }
+
+    .subtitle, button {
+        font-size: 2vh;
+    }
+
+    #screen-top {
+        font-size: 3vh;
+        height: 9vh;
+    }
+    
+    #screen-bottom {
+        font-size: 6vh;
+    }
+
+    header {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 3vh;
+        height: 15%;
+    }
+
+    #name {
+        color: var(--yellow-color);
+    }
+
+    #calc {
+        border: 0;
+        border-top: 4px solid var(--border-color);
+        width: 100%;
+        height: 85%;
+        border-radius: 0;
+    }
+
+    #zero, #equals {
+        border-radius: 2px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    #title {
+        font-size: 8vw;
+    }
+
+    .subtitle, button {
+        font-size: 4vw;
+    }
 }
